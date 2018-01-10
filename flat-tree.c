@@ -207,7 +207,7 @@ ft_iterator_seek(ft_iterator_t* iterator, FTulong index) {
 	else
 	{
 		iterator->offset = index / 2;
-		iterator->offset = 2;
+		iterator->factor = 2;
 	}
 }
 
