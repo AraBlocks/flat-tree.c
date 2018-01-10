@@ -7,7 +7,6 @@ debug_t debugger;
 
 int main() {
 	debug_init(&debugger, "flat-tree");
-	// debug(&debugger, "doing stuff");
 
 	describe("flat-tree_test") {
 		it("base blocks") {
