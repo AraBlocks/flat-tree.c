@@ -131,14 +131,17 @@ int main() {
 			assert(ft_parent(10000000000, 0) == 10000000001);
 		}
 
-		// it("child to parent to child") {
-		// 	FTulong child = 0;
-		// 	for (int i = 0; i < 50; i++) {
-		// 		debug(&debugger, "here %d", i);
-		// 		child = ft_parent(child, 0);
-		// 	}
-		// 	assert(child == 1125899906842623);
-		// }
+		it("child to parent to child") {
+			FTulong child = 0;
+			for (int i = 0; i < 50; i++) {
+				child = ft_parent(child, 0);
+			}
+			assert(child == 1125899906842623LLU);
+			for (int j = 0; j < 50; j++) {
+				child = ft_left_child(child, 0);
+			}
+			assert(child == 0LLU);
+		}
 
 		it("iterator") {
 			ft_iterator_t* iterator = ft_iterator_new(0);
