@@ -80,7 +80,7 @@ ft_right_child(uint index, uint depth)
 {
 	if (!(index & 1)) return -1;
 	if (!depth) depth = ft_depth(index);
-	return ft_index(depth - 1, ft_offset(index, depth) * 2);
+	return ft_index(depth - 1, 1 + ft_offset(index, depth) * 2);
 }
 
 /*
