@@ -3,124 +3,20 @@
 uint
 twoPow(uint n)
 {
-
+	return n < 31 ? 1 << n : ((1 << 30) * (1 << (n - 30)));
 }
 
 uint
 rightShift(uint n)
 {
-
-}
-
-/*
-* Returns an array index for the tree element at the given depth and offset
-*/
-uint 
-index(uint depth, uint offset)
-{
-	return (1 + 2 * offset) * twoPow(depth) - 1;
-}
-
-/*
-* Returns the index of the parent element in tree
-*/
-uint 
-parent(uint index, uint depth)
-{
-	if (!depth) depth = depth(index);
-	uint offset = offset(index, depth);
-
-	return index(depth + 1, rightShift(offset));
-}
-
-/* 
-* Returns the index of this elements sibling
-*/
-uint 
-sibling(uint index, uint depth)
-{
-	if (!depth) depth = depth(index);
-	uint offset = offset(index, depth);
-
-	return index(depth, offset & 1 ? offset - 1 : offset + 1);
-}
-
-/*
-* Returns an array [leftChild, rightChild] with the indices of this element's children.
-* If this element does not have any children it returns null;
-*/
-void
-children(uint children[2], uint index, uint depth)
-{
-	if (!(index & 1)) return null;
-
-	if (!depth) depth = depth(index);
-	uint offset = exports.offset(index, depth) * 2;
-
-	children[0] = index(depth - 1, offset);
-	children[1] = index(depth - 1, offset + 1);
-}
-
-/*
-* Returns the range (inclusive) the tree root at index spans. For example, tree.spans(3)
-* would return [0, 6]
-*/
-void
-spans(uint range[2], uint index)
-{
-	if (!(index & 1))
-	{
-		range[0] = index;
-		range[1] = depth;
-		return range;
-	}
-	if (!depth) depth = depth(index);
-
-	uint offset = offset(index, depth);
-	uint width = twoPow(depth + 1);
-
-	range[0] = offset * width;
-	range[1] = (offset + 1) * width - 2;
-}
-
-/*
-* Returns the left spanning in index in the tree index spans
-*/
-uint
-leftSpan(uint index, uint depth)
-{
-	if (!(index & 1)) return index;
-	if (!depth) depth = depth(index);
-	return offset(index, depth) * twoPow(depth + 1);
-}
-
-/*
-* Returns the right spanning in index in the tree index spans.
-*/
-uint
-rightSpan(uint index, uint depth)
-{
-	if (!(index & 1)) return index;
-	if (!depth) depth = depth(index);
-	return (offset(index, depth) + 1) * twoPow(depth + 1) - 2;
-}
-
-/*
-* Returns how many nodes (including parent nodes) a tree contains
-*/
-uint 
-count(uint index)
-{
-	if (!index & 1) return 1;
-	if (!depth) depth = depth(index);
-	return twoPow(depth + 1) - 1;
+	return (n - (n & 1)) / 2;
 }
 
 /*
 * Returns the depth of an element
 */
 uint 
-depth(uint index)
+treeDepth(uint index)
 {
 	uint depth = 0;
 
@@ -137,12 +33,115 @@ depth(uint index)
 * Returns the relative offset of an element
 */
 uint 
-offset(uint index, uint depth)
+treeOffset(uint index, uint depth)
 {
 	if (!(index & 1)) return index / 2;
-	if (!depth) depth = depth(index);
+	if (!depth) depth = treeDepth(index);
 
 	return ((index + 1) / twoPow(depth) - 1) / 2;
+}
+
+/*
+* Returns an array index for the tree element at the given depth and offset
+*/
+uint 
+treeIndex(uint depth, uint offset)
+{
+	return (1 + 2 * offset) * twoPow(depth) - 1;
+}
+
+/*
+* Returns the index of the parent element in tree
+*/
+uint 
+treeParent(uint index, uint depth)
+{
+	if (!depth) depth = treeDepth(index);
+	uint offset = treeOffset(index, depth);
+
+	return treeIndex(depth + 1, rightShift(offset));
+}
+
+/* 
+* Returns the index of this elements sibling
+*/
+uint 
+treeSibling(uint index, uint depth)
+{
+	if (!depth) depth = treeDepth(index);
+	uint offset = treeOffset(index, depth);
+
+	return treeIndex(depth, offset & 1 ? offset - 1 : offset + 1);
+}
+
+/*
+* Returns an array [leftChild, rightChild] with the indices of this element's children.
+* If this element does not have any children it returns null;
+*/
+void
+children(uint children[2], uint index, uint depth)
+{
+	if (!(index & 1)) return;
+
+	if (!depth) depth = treeDepth(index);
+	uint offset = treeOffset(index, depth) * 2;
+
+	children[0] = treeIndex(depth - 1, offset);
+	children[1] = treeIndex(depth - 1, offset + 1);
+}
+
+/*
+* Returns the range (inclusive) the tree root at index spans. For example, tree.spans(3)
+* would return [0, 6]
+*/
+void
+spans(uint range[2], uint index, uint depth)
+{
+	if (!(index & 1))
+	{
+		range[0] = index;
+		range[1] = depth;
+	}
+	if (!depth) depth = treeDepth(index);
+
+	uint offset = treeOffset(index, depth);
+	uint width = twoPow(depth + 1);
+
+	range[0] = offset * width;
+	range[1] = (offset + 1) * width - 2;
+}
+
+/*
+* Returns the left spanning in index in the tree index spans
+*/
+uint
+treeLeftSpan(uint index, uint depth)
+{
+	if (!(index & 1)) return index;
+	if (!depth) depth = treeDepth(index);
+	return treeOffset(index, depth) * twoPow(depth + 1);
+}
+
+/*
+* Returns the right spanning in index in the tree index spans.
+*/
+uint
+treeRightSpan(uint index, uint depth)
+{
+	if (!(index & 1)) return index;
+	if (!depth) depth = treeDepth(index);
+	return (treeOffset(index, depth) + 1) * twoPow(depth + 1) - 2;
+}
+
+/*
+* Returns how many nodes (including parent nodes) a tree contains
+*/
+uint 
+count(uint index, uint depth)
+{
+	if (!(index & 1)) return 1;
+	if (!depth) depth = treeDepth(index);
+	return twoPow(depth + 1) - 1;
 }
 
 /*
@@ -153,7 +152,19 @@ offset(uint index, uint depth)
 void 
 fullRoots(uint roots[], uint index)
 {
-	
+
+}
+
+/*
+* Create a stateful tree iterator starting at a given index. The iterator exposes the following methods.
+*/
+void
+iterator(Iterator* iterator, uint index)
+{
+	iterator->index = 0;
+	iterator->offset = 0;
+	iterator->factor = 0;
+	seek(iterator, index || 0);
 }
 
 /*
@@ -162,7 +173,9 @@ fullRoots(uint roots[], uint index)
 uint
 next(Iterator* iterator)
 {
-
+	iterator->offset++;
+	iterator->index += iterator->factor;
+	return iterator->index;
 }
 
 /*
@@ -171,7 +184,10 @@ next(Iterator* iterator)
 uint
 prev(Iterator* iterator)
 {
-
+	if (!iterator->offset) return iterator->index;
+	iterator->offset--;
+	iterator->index -= iterator->factor;
+	return iterator->index;
 }
 
 /*
@@ -180,7 +196,17 @@ prev(Iterator* iterator)
 void
 seek(Iterator* iterator, uint index)
 {
-
+	iterator->index = index;
+	if (iterator->index & 1) 
+	{
+		iterator->offset = treeOffset(index, 0);
+		iterator->factor = twoPow(treeDepth(index) + 1);
+	}
+	else
+	{
+		iterator->offset = index / 2;
+		iterator->offset = 2;
+	}
 }
 
 /*
@@ -189,7 +215,18 @@ seek(Iterator* iterator, uint index)
 uint
 parent(Iterator* iterator)
 {
-
+	if (iterator->offset & 1)
+	{
+		iterator->index -= iterator->factor / 2;
+		iterator->offset = (iterator->offset - 1) / 2;
+	}
+	else
+	{
+		iterator->index += iterator->factor / 2;
+		iterator->offset /= 2;
+	}
+	iterator->factor *= 2;
+	return iterator->index;
 }
 
 /*
@@ -198,7 +235,11 @@ parent(Iterator* iterator)
 uint
 leftChild(Iterator* iterator)
 {
-
+	if (iterator->factor == 2) return iterator->index;
+	iterator->factor /= 2;
+	iterator->index -= iterator->factor / 2;
+	iterator->offset *= 2;
+	return iterator->index;
 }
 
 /*
@@ -207,7 +248,11 @@ leftChild(Iterator* iterator)
 uint
 rightChild(Iterator* iterator)
 {
-
+	if (iterator->factor == 2) return iterator->index;
+	iterator->factor /= 2;
+	iterator->index += iterator->factor / 2;
+	iterator->offset = 2 * iterator->offset + 1;
+	return iterator->index;
 }
 
 /*
@@ -216,7 +261,10 @@ rightChild(Iterator* iterator)
 uint
 leftSpan(Iterator* iterator)
 {
-
+	iterator->index = iterator->index - iterator->factor / 2 + 1;
+	iterator->offset = iterator->index / 2;
+	iterator->factor = 2;
+	return iterator->index;
 }
 
 /*
@@ -225,7 +273,10 @@ leftSpan(Iterator* iterator)
 uint
 rightSpan(Iterator* iterator)
 {
-
+	iterator->index = iterator->index + iterator->factor / 2 - 1;
+	iterator->offset = iterator->index / 2;
+	iterator->factor = 2;
+	return iterator->index;
 }
 
 /*
@@ -234,7 +285,7 @@ rightSpan(Iterator* iterator)
 bool
 isLeft(Iterator* iterator)
 {
-
+	return !(iterator->offset & 1);
 }
 
 /*
@@ -243,7 +294,7 @@ isLeft(Iterator* iterator)
 bool
 isRight(Iterator* iterator)
 {
-
+	return !isLeft(iterator);
 }
 
 /*
@@ -252,5 +303,5 @@ isRight(Iterator* iterator)
 uint
 sibling(Iterator* iterator)
 {
-
+	return isLeft(iterator) ? next(iterator) : prev(iterator);
 }

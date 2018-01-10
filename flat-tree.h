@@ -1,3 +1,5 @@
+#include <stdbool.h>
+
 #ifndef FLAT_TREE_H
 #define FLAT_TREE_H
 
@@ -19,19 +21,19 @@ rightShift(uint n);
 * Returns an array index for the tree element at the given depth and offset
 */
 uint 
-index(uint depth, uint offset);
+treeIndex(uint depth, uint offset);
 
 /*
 * Returns the index of the parent element in tree
 */
 uint 
-parent(uint index, uint depth);
+treeParent(uint index, uint depth);
 
 /* 
 * Returns the index of this elements sibling
 */
 uint 
-sibling(uint index, uint depth);
+treeSibling(uint index, uint depth);
 
 /*
 * Returns an array [leftChild, rightChild] with the indices of this element's children.
@@ -45,36 +47,36 @@ children(uint children[2], uint index, uint depth);
 * would return [0, 6]
 */
 void
-spans(uint range[2], uint index);
+spans(uint range[2], uint index, uint depth);
 
 /*
 * Returns the left spanning in index in the tree index spans
 */
 uint
-leftSpan(uint index, uint depth);
+treeLeftSpan(uint index, uint depth);
 
 /*
 * Returns the right spanning in index in the tree index spans.
 */
 uint
-rightSpan(uint index, uint depth);
+treeRightSpan(uint index, uint depth);
 /*
 * Returns how many nodes (including parent nodes) a tree contains
 */
 uint 
-count(uint index);
+count(uint index, uint depth);
 
 /*
 * Returns the depth of an element
 */
 uint 
-depth(uint index);
+treeDepth(uint index);
 
 /*
 * Returns the relative offset of an element
 */
 uint 
-offset(uint index, uint depth);
+treeOffset(uint index, uint depth);
 
 /*
 * Returns a list of all the full roots (subtrees where all nodes have either 2 or 0 children) < index.
@@ -83,6 +85,12 @@ offset(uint index, uint depth);
 */
 void 
 fullRoots(uint roots[], uint index);
+
+/*
+* Create a stateful tree iterator starting at a given index. The iterator exposes the following methods.
+*/
+void
+iterator(Iterator* iterator, uint index);
 
 /*
 * Move the iterator the next item in the tree.
@@ -149,3 +157,5 @@ isRight(Iterator* iterator);
 */
 uint
 sibling(Iterator* iterator);
+
+#endif
