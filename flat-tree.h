@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <stdlib.h>
 
 #ifndef FLAT_TREE_H
 #define FLAT_TREE_H
@@ -9,74 +10,74 @@ typedef struct {
 	uint index;
 	uint offset;
 	uint factor;
-} Iterator;
+} ft_iterator_t;
 
 uint
-twoPow(uint n);
+ft_two_pow(uint n);
 
 uint
-rightShift(uint n);
+ft_right_shift(uint n);
 
 /*
 * Returns an array index for the tree element at the given depth and offset
 */
 uint 
-treeIndex(uint depth, uint offset);
+ft_index(uint depth, uint offset);
 
 /*
 * Returns the index of the parent element in tree
 */
 uint 
-treeParent(uint index, uint depth);
+ft_parent(uint index, uint depth);
 
 /* 
 * Returns the index of this elements sibling
 */
 uint 
-treeSibling(uint index, uint depth);
+ft_sibling(uint index, uint depth);
 
 /*
 * Returns an array [leftChild, rightChild] with the indices of this element's children.
 * If this element does not have any children it returns null;
 */
 void 
-children(uint children[2], uint index, uint depth);
+ft_children(uint children[2], uint index, uint depth);
 
 /*
 * Returns the range (inclusive) the tree root at index spans. For example, tree.spans(3)
 * would return [0, 6]
 */
 void
-spans(uint range[2], uint index, uint depth);
+ft_spans(uint range[2], uint index, uint depth);
 
 /*
 * Returns the left spanning in index in the tree index spans
 */
 uint
-treeLeftSpan(uint index, uint depth);
+ft_left_span(uint index, uint depth);
 
 /*
 * Returns the right spanning in index in the tree index spans.
 */
 uint
-treeRightSpan(uint index, uint depth);
+ft_right_span(uint index, uint depth);
 /*
 * Returns how many nodes (including parent nodes) a tree contains
 */
 uint 
-count(uint index, uint depth);
+ft_count(uint index, uint depth);
 
 /*
 * Returns the depth of an element
 */
 uint 
-treeDepth(uint index);
+ft_depth(uint index);
 
 /*
 * Returns the relative offset of an element
 */
 uint 
-treeOffset(uint index, uint depth);
+ft_offset(uint index, uint depth);
 
 /*
 * Returns a list of all the full roots (subtrees where all nodes have either 2 or 0 children) < index.
@@ -84,78 +85,80 @@ treeOffset(uint index, uint depth);
 * and the tree rooted at 7 has a child located at 9 which is >= 8
 */
 void 
-fullRoots(uint roots[], uint index);
+ft_full_roots(uint roots[], uint index);
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*
 * Create a stateful tree iterator starting at a given index. The iterator exposes the following methods.
 */
-void
-iterator(Iterator* iterator, uint index);
+ft_iterator_t*
+ft_iterator_new(uint index);
 
 /*
 * Move the iterator the next item in the tree.
 */
 uint
-next(Iterator* iterator);
+ft_iterator_next(ft_iterator_t* iterator);
 
 /*
 * Move the iterator the prev item in the tree.
 */
 uint
-prev(Iterator* iterator);
+ft_iterator_prev(ft_iterator_t* iterator);
 
 /*
 * Move the iterator the this specific tree index.
 */
 void
-seek(Iterator* iterator, uint index);
+ft_iterator_seek(ft_iterator_t* iterator, uint index);
 
 /*
 * Move the iterator to the current parent index
 */
 uint
-parent(Iterator* iterator);
+ft_iterator_parent(ft_iterator_t* iterator);
 
 /*
 * Move the iterator to the current left child index.
 */
 uint
-leftChild(Iterator* iterator);
+ft_iterator_left_child(ft_iterator_t* iterator);
 
 /*
 * Move the iterator to the current right child index.
 */
 uint
-rightChild(Iterator* iterator);
+ft_iterator_right_child(ft_iterator_t* iterator);
 
 /*
 * Move the iterator to the current left span index.
 */
 uint
-leftSpan(Iterator* iterator);
+ft_iterator_left_span(ft_iterator_t* iterator);
 
 /*
 * Move the iterator to the current right span index
 */
 uint
-rightSpan(Iterator* iterator);
+ft_iterator_right_span(ft_iterator_t* iterator);
 
 /*
 * Is the iterator at a left sibling?
 */
 bool
-isLeft(Iterator* iterator);
+ft_iterator_is_left(ft_iterator_t* iterator);
 
 /*
 * Is the iterator at a right sibling?
 */
 bool
-isRight(Iterator* iterator);
+ft_iterator_is_right(ft_iterator_t* iterator);
 
 /*
 *Move the iterator to the current sibling
 */
 uint
-sibling(Iterator* iterator);
+ft_iterator_sibling(ft_iterator_t* iterator);
 
 #endif
