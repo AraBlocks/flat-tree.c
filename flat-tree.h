@@ -7,7 +7,7 @@
 typedef unsigned int uint;
 
 typedef struct {
-	uint index;
+	int index;
 	uint offset;
 	uint factor;
 } ft_iterator_t;
@@ -36,11 +36,17 @@ ft_parent(uint index, uint depth);
 uint 
 ft_sibling(uint index, uint depth);
 
+int
+ft_left_child(uint index, uint depth);
+
+int
+ft_right_child(uint index, uint depth);
+
 /*
 * Returns an array [leftChild, rightChild] with the indices of this element's children.
 * If this element does not have any children it returns null;
 */
-void 
+bool 
 ft_children(uint children[2], uint index, uint depth);
 
 /*
@@ -122,13 +128,13 @@ ft_iterator_parent(ft_iterator_t* iterator);
 /*
 * Move the iterator to the current left child index.
 */
-uint
+int
 ft_iterator_left_child(ft_iterator_t* iterator);
 
 /*
 * Move the iterator to the current right child index.
 */
-uint
+int
 ft_iterator_right_child(ft_iterator_t* iterator);
 
 /*

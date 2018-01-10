@@ -67,19 +67,36 @@ ft_sibling(uint index, uint depth) {
 	return ft_index(depth, offset & 1 ? offset - 1 : offset + 1);
 }
 
+int
+ft_left_child(uint index, uint depth)
+{
+	if (!(index & 1)) return -1;
+	if (!depth) depth = ft_depth(index);
+	return ft_index(depth - 1, ft_offset(index, depth) * 2);
+}
+
+int
+ft_right_child(uint index, uint depth)
+{
+	if (!(index & 1)) return -1;
+	if (!depth) depth = ft_depth(index);
+	return ft_index(depth - 1, ft_offset(index, depth) * 2);
+}
+
 /*
 * Returns an array [leftChild, rightChild] with the indices of this element's children.
 * If this element does not have any children it returns null;
 */
-void
+bool
 ft_children(uint children[2], uint index, uint depth) {
-	if (!(index & 1)) return;
+	if (!(index & 1)) return false;
 
 	if (!depth) depth = ft_depth(index);
 	uint offset = ft_offset(index, depth) * 2;
 
 	children[0] = ft_index(depth - 1, offset);
 	children[1] = ft_index(depth - 1, offset + 1);
+	return true;
 }
 
 /*
@@ -216,7 +233,7 @@ ft_iterator_parent(ft_iterator_t* iterator) {
 /*
 * Move the iterator to the current left child index.
 */
-uint
+int
 ft_iterator_left_child(ft_iterator_t* iterator) {
 	if (iterator->factor == 2) return iterator->index;
 	iterator->factor /= 2;
@@ -228,7 +245,7 @@ ft_iterator_left_child(ft_iterator_t* iterator) {
 /*
 * Move the iterator to the current right child index.
 */
-uint
+int
 ft_iterator_right_child(ft_iterator_t* iterator) {
 	if (iterator->factor == 2) return iterator->index;
 	iterator->factor /= 2;
