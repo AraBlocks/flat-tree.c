@@ -9,6 +9,12 @@ typedef struct {
 	uint factor;
 } Iterator;
 
+uint
+twoPow(uint n);
+
+uint
+rightShift(uint n);
+
 /*
 * Returns an array index for the tree element at the given depth and offset
 */
@@ -19,34 +25,39 @@ index(uint depth, uint offset);
 * Returns the index of the parent element in tree
 */
 uint 
-parent(uint index);
+parent(uint index, uint depth);
 
 /* 
 * Returns the index of this elements sibling
 */
 uint 
-sibling(uint index);
+sibling(uint index, uint depth);
 
 /*
 * Returns an array [leftChild, rightChild] with the indices of this element's children.
 * If this element does not have any children it returns null;
 */
-uint* 
-children(uint index);
+void 
+children(uint children[2], uint index, uint depth);
 
 /*
 * Returns the range (inclusive) the tree root at index spans. For example, tree.spans(3)
 * would return [0, 6]
 */
-uint* 
-spans(uint index);
+void
+spans(uint range[2], uint index);
 
 /*
 * Returns the left spanning in index in the tree index spans
 */
-uint* 
-leftSpan(uint index);
+uint
+leftSpan(uint index, uint depth);
 
+/*
+* Returns the right spanning in index in the tree index spans.
+*/
+uint
+rightSpan(uint index, uint depth);
 /*
 * Returns how many nodes (including parent nodes) a tree contains
 */
@@ -70,8 +81,8 @@ offset(uint index, uint depth);
 * For example, fullRoots(8) returns [3] since the subtree rooted at 3 spans 0 -> 6
 * and the tree rooted at 7 has a child located at 9 which is >= 8
 */
-uint* 
-fullRoots(uint index);
+void 
+fullRoots(uint roots[], uint index);
 
 /*
 * Move the iterator the next item in the tree.
@@ -138,4 +149,3 @@ isRight(Iterator* iterator);
 */
 uint
 sibling(Iterator* iterator);
-
