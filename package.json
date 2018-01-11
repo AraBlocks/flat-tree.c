@@ -4,6 +4,7 @@
   "repo": "helloume/flat-tree.c",
   "description": "A series of functions to map a binary tree to a list",
   "keywords": ["flat", "binary", "tree", "list"],
+  "license": "MIT",
   "src": [
     "include/flat-tree/flat-tree.h",
     "include/flat-tree/iterator.h",
