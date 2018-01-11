@@ -1,18 +1,18 @@
 #include "flat-tree.h"
 
-FTulong
-ft_two_pow(FTulong n) {
+ft_ulong
+ft_two_pow(ft_ulong n) {
 	return n < 31LLU ? 1LLU << n : ((1LLU << 30LLU) * (1LLU << (n - 30LLU)));
 }
 
-FTulong
-ft_right_shift(FTulong n) {
+ft_ulong
+ft_right_shift(ft_ulong n) {
 	return (n - (n & 1LLU)) / 2LLU;
 }
 
-FTulong 
-ft_depth(FTulong index) {
-	FTulong depth = 0LLU;
+ft_ulong 
+ft_depth(ft_ulong index) {
+	ft_ulong depth = 0LLU;
 
 	index += 1LLU;
 	while (!(index & 1LLU)) 
@@ -23,45 +23,45 @@ ft_depth(FTulong index) {
 	return depth;
 }
 
-FTulong 
-ft_offset(FTulong index, FTulong depth) {
+ft_ulong 
+ft_offset(ft_ulong index, ft_ulong depth) {
 	if (!(index & 1LLU)) return index / 2LLU;
 	if (!depth) depth = ft_depth(index);
 
 	return ((index + 1LLU) / ft_two_pow(depth) - 1LLU) / 2LLU;
 }
 
-FTulong 
-ft_index(FTulong depth, FTulong offset) {
+ft_ulong 
+ft_index(ft_ulong depth, ft_ulong offset) {
 	return (1LLU + 2LLU * offset) * ft_two_pow(depth) - 1LLU;
 }
 
-FTulong 
-ft_parent(FTulong index, FTulong depth) {
+ft_ulong 
+ft_parent(ft_ulong index, ft_ulong depth) {
 	if (!depth) depth = ft_depth(index);
-	FTulong offset = ft_offset(index, depth);
+	ft_ulong offset = ft_offset(index, depth);
 
 	return ft_index(depth + 1LLU, ft_right_shift(offset));
 }
 
-FTulong 
-ft_sibling(FTulong index, FTulong depth) {
+ft_ulong 
+ft_sibling(ft_ulong index, ft_ulong depth) {
 	if (!depth) depth = ft_depth(index);
-	FTulong offset = ft_offset(index, depth);
+	ft_ulong offset = ft_offset(index, depth);
 
 	return ft_index(depth, offset & 1LLU ? offset - 1LLU : offset + 1LLU);
 }
 
-FTlong
-ft_left_child(FTulong index, FTulong depth)
+ft_long
+ft_left_child(ft_ulong index, ft_ulong depth)
 {
 	if (!(index & 1)) return -1;
 	if (!depth) depth = ft_depth(index);
 	return ft_index(depth - 1LLU, ft_offset(index, depth) * 2LLU);
 }
 
-FTlong
-ft_right_child(FTulong index, FTulong depth)
+ft_long
+ft_right_child(ft_ulong index, ft_ulong depth)
 {
 	if (!(index & 1)) return -1;
 	if (!depth) depth = ft_depth(index);
@@ -69,11 +69,11 @@ ft_right_child(FTulong index, FTulong depth)
 }
 
 bool
-ft_children(FTulong children[2], FTulong index, FTulong depth) {
+ft_children(ft_ulong children[2], ft_ulong index, ft_ulong depth) {
 	if (!(index & 1)) return false;
 
 	if (!depth) depth = ft_depth(index);
-	FTulong offset = ft_offset(index, depth) * 2LLU;
+	ft_ulong offset = ft_offset(index, depth) * 2LLU;
 
 	children[0] = ft_index(depth - 1LLU, offset);
 	children[1] = ft_index(depth - 1LLU, offset + 1LLU);
@@ -81,7 +81,7 @@ ft_children(FTulong children[2], FTulong index, FTulong depth) {
 }
 
 void
-ft_spans(FTulong range[2], FTulong index, FTulong depth) {
+ft_spans(ft_ulong range[2], ft_ulong index, ft_ulong depth) {
 	if (!(index & 1))
 	{
 		range[0] = index;
@@ -89,44 +89,44 @@ ft_spans(FTulong range[2], FTulong index, FTulong depth) {
 	}
 	if (!depth) depth = ft_depth(index);
 
-	FTulong offset = ft_offset(index, depth);
-	FTulong width = ft_two_pow(depth + 1LLU);
+	ft_ulong offset = ft_offset(index, depth);
+	ft_ulong width = ft_two_pow(depth + 1LLU);
 
 	range[0] = offset * width;
 	range[1] = (offset + 1LLU) * width - 2LLU;
 }
 
-FTulong
-ft_left_span(FTulong index, FTulong depth) {
+ft_ulong
+ft_left_span(ft_ulong index, ft_ulong depth) {
 	if (!(index & 1)) return index;
 	if (!depth) depth = ft_depth(index);
 	return ft_offset(index, depth) * ft_two_pow(depth + 1LLU);
 }
 
-FTulong
-ft_right_span(FTulong index, FTulong depth) {
+ft_ulong
+ft_right_span(ft_ulong index, ft_ulong depth) {
 	if (!(index & 1)) return index;
 	if (!depth) depth = ft_depth(index);
 	return (ft_offset(index, depth) + 1LLU) * ft_two_pow(depth + 1LLU) - 2LLU;
 }
 
-FTulong 
-ft_count(FTulong index, FTulong depth) {
+ft_ulong 
+ft_count(ft_ulong index, ft_ulong depth) {
 	if (!(index & 1)) return 1;
 	if (!depth) depth = ft_depth(index);
 	return ft_two_pow(depth + 1LLU) - 1LLU;
 }
 
-FTlong 
-ft_full_roots(FTulong** roots, FTulong index) {
+ft_long 
+ft_full_roots(ft_ulong** roots, ft_ulong index) {
 	if (index & 1) return 0;
 	int length = 2;
-	(*roots) = malloc(length * sizeof(FTulong));
+	(*roots) = malloc(length * sizeof(ft_ulong));
 
 	index /= 2LLU;
 
-	FTulong offset = 0LLU;
-	FTulong factor = 1LLU;
+	ft_ulong offset = 0LLU;
+	ft_ulong factor = 1LLU;
 
 	int count = 0;
 	while (true) {
@@ -145,7 +145,7 @@ ft_full_roots(FTulong** roots, FTulong index) {
 }
 
 ft_iterator_t*
-ft_iterator_new(FTulong index) {
+ft_iterator_new(ft_ulong index) {
 	ft_iterator_t* iterator = malloc(sizeof(ft_iterator_t));
 	iterator->index = 0LLU;
 	iterator->offset = 0LLU;
@@ -154,14 +154,14 @@ ft_iterator_new(FTulong index) {
 	return iterator;
 }
 
-FTulong
+ft_ulong
 ft_iterator_next(ft_iterator_t* iterator) {
 	iterator->offset++;
 	iterator->index += iterator->factor;
 	return iterator->index;
 }
 
-FTulong
+ft_ulong
 ft_iterator_prev(ft_iterator_t* iterator) {
 	if (!iterator->offset) return iterator->index;
 	iterator->offset--;
@@ -170,7 +170,7 @@ ft_iterator_prev(ft_iterator_t* iterator) {
 }
 
 void
-ft_iterator_seek(ft_iterator_t* iterator, FTulong index) {
+ft_iterator_seek(ft_iterator_t* iterator, ft_ulong index) {
 	iterator->index = index;
 	if (iterator->index & 1) 
 	{
@@ -184,7 +184,7 @@ ft_iterator_seek(ft_iterator_t* iterator, FTulong index) {
 	}
 }
 
-FTulong
+ft_ulong
 ft_iterator_parent(ft_iterator_t* iterator) {
 	if (iterator->offset & 1)
 	{
@@ -200,7 +200,7 @@ ft_iterator_parent(ft_iterator_t* iterator) {
 	return iterator->index;
 }
 
-FTlong
+ft_long
 ft_iterator_left_child(ft_iterator_t* iterator) {
 	if (iterator->factor == 2LLU) return iterator->index;
 	iterator->factor /= 2LLU;
@@ -209,7 +209,7 @@ ft_iterator_left_child(ft_iterator_t* iterator) {
 	return iterator->index;
 }
 
-FTlong
+ft_long
 ft_iterator_right_child(ft_iterator_t* iterator) {
 	if (iterator->factor == 2LLU) return iterator->index;
 	iterator->factor /= 2LLU;
@@ -218,7 +218,7 @@ ft_iterator_right_child(ft_iterator_t* iterator) {
 	return iterator->index;
 }
 
-FTulong
+ft_ulong
 ft_iterator_left_span(ft_iterator_t* iterator) {
 	iterator->index = iterator->index - iterator->factor / 2LLU + 1LLU;
 	iterator->offset = iterator->index / 2LLU;
@@ -226,7 +226,7 @@ ft_iterator_left_span(ft_iterator_t* iterator) {
 	return iterator->index;
 }
 
-FTulong
+ft_ulong
 ft_iterator_right_span(ft_iterator_t* iterator) {
 	iterator->index = iterator->index + iterator->factor / 2LLU - 1LLU;
 	iterator->offset = iterator->index / 2LLU;
@@ -244,7 +244,7 @@ ft_iterator_is_right(ft_iterator_t* iterator) {
 	return !ft_iterator_is_left(iterator);
 }
 
-FTulong
+ft_ulong
 ft_iterator_sibling(ft_iterator_t* iterator) {
 	return ft_iterator_is_left(iterator) ? ft_iterator_next(iterator) : ft_iterator_prev(iterator);
 }

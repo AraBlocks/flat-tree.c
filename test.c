@@ -26,7 +26,7 @@ int main() {
 		}
 
 		it("children") {
-			FTulong children[2];
+			ft_ulong children[2];
 			assert(ft_children(children, 0, 0) == false);
 
 			assert(ft_children(children, 1, 0) == true);
@@ -59,7 +59,7 @@ int main() {
 		}
 
 		it("fullRoots") {
-			FTulong * roots = NULL;
+			ft_ulong * roots = NULL;
 			assert(ft_full_roots(&roots, 0) == 0);
 
 			assert(ft_full_roots(&roots, 2) == 1);
@@ -97,7 +97,7 @@ int main() {
 		}
 
 		it("spans") {
-			FTulong range[2];
+			ft_ulong range[2];
 			ft_spans(range, 0, 0);
 			assert(range[0] == 0);
 			assert(range[1] == 0);
@@ -153,7 +153,7 @@ int main() {
 		}
 
 		it("child to parent to child") {
-			FTulong child = 0;
+			ft_ulong child = 0;
 			for (int i = 0; i < 50; i++) {
 				child = ft_parent(child, 0);
 			}
