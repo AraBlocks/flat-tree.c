@@ -1,11 +1,12 @@
-#include "flat-tree.h"
-#include "deps/debug/debug.h"
-#include "deps/describe/describe.h"
+#include <flat-tree/flat-tree.h>
+#include <describe/describe.h>
+#include <debug/debug.h>
 #include <string.h>
 
-debug_t debugger;
+static debug_t debugger;
 
-int main() {
+int
+main(void) {
   debug_init(&debugger, "flat-tree");
 
   describe("flat-tree_test") {
@@ -188,5 +189,6 @@ int main() {
       assert(ft_iterator_left_span(iterator) == 12);
     }
   }
+
   return assert_failures();
 }
