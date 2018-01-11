@@ -2,10 +2,14 @@
   "name": "flat-tree.c",
   "version": "0.0.1",
   "repo": "helloume/flat-tree.c",
-  "keywords": [],
+  "description": "A series of functions to map a binary tree to a list",
+  "keywords": ["flat", "binary", "tree", "list"],
   "src": [
-    "flat-tree.h",
-    "flat-tree.c"
+    "include/flat-tree/flat-tree.h",
+    "include/flat-tree/iterator.h",
+    "include/flat-tree/common.h",
+    "src/flat-tree.c",
+    "src/iterator.c"
   ]
 }
 
