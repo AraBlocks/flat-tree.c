@@ -8,9 +8,9 @@ typedef unsigned long long ft_ulong;
 typedef long long ft_long;
 
 typedef struct {
-	ft_ulong index;
-	ft_ulong offset;
-	ft_ulong factor;
+  ft_ulong index;
+  ft_ulong offset;
+  ft_ulong factor;
 } ft_iterator_t;
 
 ft_ulong
