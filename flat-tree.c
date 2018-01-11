@@ -117,9 +117,31 @@ ft_count(FTulong index, FTulong depth) {
 	return ft_two_pow(depth + 1LLU) - 1LLU;
 }
 
-void 
-ft_full_roots(FTulong roots[], FTulong index) {
+FTlong 
+ft_full_roots(FTulong** roots, FTulong index) {
+	if (index & 1) return 0;
+	int length = 2;
+	(*roots) = malloc(length * sizeof(FTulong));
 
+	index /= 2LLU;
+
+	FTulong offset = 0LLU;
+	FTulong factor = 1LLU;
+
+	int count = 0;
+	while (true) {
+		if (!index) return count;
+		while (factor * 2LLU <= index) factor *= 2LLU;
+		if (count == length) {
+			length += 2;
+			(*roots) = realloc(*roots, length);
+		}
+		(*roots)[count] = offset + factor - 1LLU;
+		offset = offset + 2LLU * factor;
+		index -= factor;
+		factor = 1;
+		count++;
+	}
 }
 
 ft_iterator_t*

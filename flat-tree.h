@@ -44,8 +44,8 @@ FTlong
 ft_right_child(FTulong index, FTulong depth);
 
 /*
-* Returns an array [leftChild, rightChild] with the indices of this element's children.
-* If this element does not have any children it returns null;
+* Returns true if the array children[leftChild, rightChild] was set with the indices of this element's children.
+* Otherwise it returns false;
 */
 bool 
 ft_children(FTulong children[2], FTulong index, FTulong depth);
@@ -87,12 +87,12 @@ FTulong
 ft_offset(FTulong index, FTulong depth);
 
 /*
-* Returns a list of all the full roots (subtrees where all nodes have either 2 or 0 children) < index.
+* Returns the number of rull roots. Sets roots[] with all the full roots (subtrees where all nodes have either 2 or 0 children) < index.
 * For example, fullRoots(8) returns [3] since the subtree rooted at 3 spans 0 -> 6
 * and the tree rooted at 7 has a child located at 9 which is >= 8
 */
-void 
-ft_full_roots(FTulong roots[], FTulong index);
+FTlong
+ft_full_roots(FTulong** roots, FTulong index);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 

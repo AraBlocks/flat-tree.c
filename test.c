@@ -58,6 +58,28 @@ int main() {
 			assert(ft_sibling(5, 0) == 1);
 		}
 
+		it("fullRoots") {
+			FTulong * roots = NULL;
+			assert(ft_full_roots(&roots, 0) == 0);
+
+			assert(ft_full_roots(&roots, 2) == 1);
+			assert(roots[0] == 0);
+
+			assert(ft_full_roots(&roots, 8) == 1);
+			assert(roots[0] == 3LLU);
+
+			assert(ft_full_roots(&roots, 20) == 2);
+			assert(roots[0] == 7LLU);
+			assert(roots[1] == 17LLU);
+
+			assert(ft_full_roots(&roots, 18) == 2);
+			assert(roots[0] == 7LLU);
+			assert(roots[1] == 16LLU);
+
+			assert(ft_full_roots(&roots, 16) == 1);
+			assert(roots[0] == 7LLU);
+		}
+
 		it("depths") {
 			assert(ft_depth(0) == 0);
 			assert(ft_depth(1) == 1);
