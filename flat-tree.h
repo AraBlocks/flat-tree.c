@@ -1,8 +1,8 @@
-#include <stdbool.h>
-#include <stdlib.h>
-
 #ifndef FLAT_TREE_H
 #define FLAT_TREE_H
+
+#include <stdbool.h>
+#include <stdlib.h>
 
 typedef unsigned long long ft_ulong;
 typedef long long ft_long;
