@@ -4,8 +4,8 @@
   "repo": "helloume/flat-tree.c",
   "keywords": [],
   "src": [
-  	"flat-tree.h",
-  	"flat-tree.c"
+    "flat-tree.h",
+    "flat-tree.c"
   ]
 }
 
