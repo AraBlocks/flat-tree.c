@@ -1,7 +1,7 @@
 all: flat-tree
 
 clean:
-	rm -f test flat-tree.o
+	rm -f test test.o flat-tree.o
 
 flat-tree.o:
 	clang -c -g flat-tree.c
