@@ -1,0 +1,25 @@
+{
+  "name": "flat-tree",
+  "version": "0.2.0",
+  "repo": "arablocks/flat-tree.c",
+  "description": "A series of functions to map a binary tree to a list",
+  "keywords": [
+    "flat",
+    "binary",
+    "tree",
+    "list"
+  ],
+  "license": "MIT",
+  "src": [
+    "include/flat-tree/flat-tree.h",
+    "include/flat-tree/iterator.h",
+    "include/flat-tree/common.h",
+    "src/flat-tree.c",
+    "src/iterator.c",
+    "LICENSE"
+  ],
+  "development": {
+    "stephenmathieson/debug.c": "0.0.1",
+    "stephenmathieson/describe.h": "2.1.2"
+  }
+}

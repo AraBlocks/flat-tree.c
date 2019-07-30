@@ -11,7 +11,7 @@
 #define DESCRIBE_H 1
 
 #include <stdio.h>
-#include "../assertion-macros/assertion-macros.h"
+#include "assertion-macros/assertion-macros.h"
 
 /**
  * Before specification.
