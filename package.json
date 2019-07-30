@@ -1,6 +1,6 @@
 {
   "name": "flat-tree",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A series of functions to map a binary tree to a list",
   "scripts": {
     "version": "./scripts/update-clib-json && git add clib.json"

@@ -1,6 +1,6 @@
 {
   "name": "flat-tree",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "repo": "arablocks/flat-tree.c",
   "description": "A series of functions to map a binary tree to a list",
   "keywords": [
