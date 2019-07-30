@@ -9,13 +9,13 @@ A series of functions to map a binary tree to a list ported from
 With [clibs](https://github.com/clibs/clib) for a local install do
 
 ```sh
-$ clib install helloume/flat-tree.c --save
+$ clib install arablocks/flat-tree.c --save
 ```
 
 or from source:
 
 ```sh
-$ git clone git@github.com:helloume/flat-tree.c.git
+$ git clone git@github.com:arablocks/flat-tree.c.git
 $ cd flat-tree.c
 $ make
 $ make install ## you may need sudo
@@ -24,7 +24,7 @@ $ make install ## you may need sudo
 or even with [ghi](https://github.com/stephenmathieson/ghi):
 
 ```sh
-$ ghi helloume/flat-tree.c
+$ ghi arablocks/flat-tree.c
 ```
 
 which simply invokes `make install`
