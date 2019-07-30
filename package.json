@@ -1,6 +1,6 @@
 {
   "name": "@arablocks/flat-tree.c",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A series of functions to map a binary tree to a list",
   "scripts": {
     "version": "./scripts/update-clib-json && git add clib.json"
